@@ -1,41 +1,50 @@
+import { Outlet } from "react-router"
+
+import { AppSidebar } from "~/components/app-sidebar"
 import {
-    Outlet,
-    NavLink
-} from "react-router";
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbLink,
+    BreadcrumbList,
+    BreadcrumbPage,
+    BreadcrumbSeparator,
+} from "~/components/ui/breadcrumb"
+import { Separator } from "~/components/ui/separator"
+import {
+    SidebarInset,
+    SidebarProvider,
+    SidebarTrigger,
+} from "~/components/ui/sidebar"
 
-
-export default function OmarLayout() {
+export default function Layout() {
     return (
-        <div className="flex min-h-screen">
-            {/* Sidebar */}
-            <div className="w-64 border-r border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
-                <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100">
-                    Omar&apos;s Dashboard
-                </h2>
-                <nav className="mt-6 space-y-2">
-                    <NavLink
-                        prefetch="intent"
-                        viewTransition
-                        to="/omar"
-                        className="block rounded-lg px-4 py-2 text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
-                    >
-                        Home
-                    </NavLink>
-                    <NavLink
-                        prefetch="intent"
-                        viewTransition
-                        to="/omar/users"
-                        className="block rounded-lg px-4 py-2 text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
-                    >
-                        Users
-                    </NavLink>
-                </nav>
-            </div>
-
-            {/* Main Content */}
-            <div className="flex-1 p-6">
-                <Outlet />
-            </div>
-        </div>
-    );
-} 
+        <SidebarProvider>
+            <AppSidebar />
+            <SidebarInset>
+                <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
+                    <div className="flex items-center gap-2 px-4">
+                        <SidebarTrigger className="-ml-1" />
+                        <Separator orientation="vertical" className="mr-2 h-4" />
+                        <Breadcrumb>
+                            <BreadcrumbList>
+                                <BreadcrumbItem className="hidden md:block">
+                                    <BreadcrumbLink href="#">
+                                        Building Your Application
+                                    </BreadcrumbLink>
+                                </BreadcrumbItem>
+                                <BreadcrumbSeparator className="hidden md:block" />
+                                <BreadcrumbItem>
+                                    <BreadcrumbPage>Data Fetching</BreadcrumbPage>
+                                </BreadcrumbItem>
+                            </BreadcrumbList>
+                        </Breadcrumb>
+                    </div>
+                </header>
+                <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+                    <Outlet />
+                    <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
+                </div>
+            </SidebarInset>
+        </SidebarProvider>
+    )
+}

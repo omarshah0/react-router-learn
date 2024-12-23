@@ -12,10 +12,6 @@ export function meta({ }: Route.MetaArgs) {
 // Headers
 export function headers({ loaderHeaders }: Route.HeadersArgs) {
     return {
-        "Content-Security-Policy": "default-src 'self'",
-        "X-Frame-Options": "DENY",
-        "X-Content-Type-Options": "nosniff",
-        "Cache-Control": "max-age=3600, s-maxage=86400",
         "X-Omar-Shah": loaderHeaders.get("X-Omar-Shah") || "No Omar Shah",
         "X-Powered-By": loaderHeaders.get("X-Powered-By") || "No Powered By",
         "Server-Timing": loaderHeaders.get("Server-Timing") || "No Server Timing",
@@ -24,16 +20,12 @@ export function headers({ loaderHeaders }: Route.HeadersArgs) {
 
 // Loader
 export async function loader() {
-    // Fetch posts from jsonplaceholder and return them as a list of users
-    const response = await fetch('https://jsonplaceholder.typicode.com/posts')
-    const posts = await response.json()
-    // Convert posts to users
-    const users = posts.map((post: any) => ({
-        id: post.id,
-        name: post.title,
-        email: post.body,
-    }))
     const ms = 5
+    const users = Array.from({ length: 10 }, (_, index) => ({
+        id: index + 1,
+        name: `User ${index + 1}`,
+        email: `user${index + 1}@example.com`,
+    }))
     return data({ users }, {
         statusText: 'Users fetched successfully',
         status: 200,
@@ -50,39 +42,41 @@ export default function Users({ loaderData }: Route.ComponentProps) {
     const { users } = loaderData
 
     return (
-        <div className="grid lg:grid-cols-12 gap-6">
-            {/* Users List */}
-            <div className="col-span-4">
-                <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-6">
-                    Users List
-                </h2>
-                <div className="space-y-4">
+        <>
+            <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-4">
+                Users List
+            </h2>
+
+            <div className="flex flex-col lg:flex-row gap-2">
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
                     {users.map((user: any) => (
                         <NavLink
                             prefetch="viewport"
-                            viewTransition
                             key={user.id}
                             to={`/omar/users/${user.id}`}
-                            className="block rounded-lg border border-gray-200 bg-white p-4 hover:border-blue-500 transition-colors dark:border-gray-700 dark:bg-gray-800"
+                            className={({ isActive }) =>
+                                `block rounded-lg border bg-card p-4 text-card-foreground transition-all ${isActive ? "border-primary" : "hover:border-primary"
+                                }`
+                            }
                         >
-                            <h2 className="text-sm text-gray-500 dark:text-gray-400">
+                            <h2 className="text-sm text-muted-foreground">
                                 ID: {user.id}
                             </h2>
-                            <h3 className="text-lg font-medium text-gray-800 dark:text-gray-100">
+                            <h3 className="text-lg font-medium">
                                 {user.name}
                             </h3>
-                            <p className="text-gray-600 dark:text-gray-300">
+                            <p className="text-foreground/80">
                                 {user.email}
                             </p>
                         </NavLink>
                     ))}
                 </div>
-            </div>
 
-            {/* User Details */}
-            <div className="col-span-8">
-                <Outlet />
+                <div className="rounded-lg border bg-card p-4">
+                    <Outlet />
+                </div>
             </div>
-        </div>
+        </>
     );
 }

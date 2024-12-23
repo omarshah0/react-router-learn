@@ -123,6 +123,7 @@ Always add a space between the imports of different groups and add a comment to 
 - use `npx shadcn@latest add <component-name>` to add new shadcn components
 - Implement Tailwind CSS for styling
 - When adding new shadcn component, document the installation command
+- When adding new class names, always use shadcn styling guide instead of hardcoding colors and other styles.
 
 ## Error Handling
 

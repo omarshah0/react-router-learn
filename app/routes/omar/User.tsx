@@ -7,13 +7,12 @@ export async function loader({
     params,
 }: Route.ClientLoaderArgs) {
     async function fetchUser(id: number) {
-        const response = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`)
-        const post = await response.json()
-        return {
-            id: post.id,
-            name: post.title,
-            email: post.body,
+        const user = {
+            id: id,
+            name: `User ${id}`,
+            email: `user${id}@example.com`,
         }
+        return user
     }
 
 
@@ -28,16 +27,15 @@ export default function Users({ loaderData, }: Route.ComponentProps) {
         <div className="grid lg:grid-cols-12 gap-6">
             {/* Users List */}
             <div className="col-span-4">
-                <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-6">
+                <h2 className="scroll-m-20 text-xl font-semibold tracking-tight mb-6">
                     User Details
                 </h2>
                 {/* // Suspense has some issues, it sometimes stuck on loading */}
                 <Suspense fallback={<div>Loading...</div>} key={userId}>
                     <UserDetails p={user} />
                 </Suspense>
-
             </div>
-        </div >
+        </div>
     );
 }
 
@@ -50,13 +48,13 @@ const UserDetails = ({ p }: { p: Promise<{ id: number; name: string; email: stri
     }, [user]);
 
     return <div className="space-y-4">
-        <h2 className="text-sm text-gray-500 dark:text-gray-400">
+        <h2 className="text-sm text-muted-foreground break-words">
             ID: {user.id}
         </h2>
-        <h3 className="text-lg font-medium text-gray-800 dark:text-gray-100">
+        <h3 className="text-lg font-medium text-card-foreground break-words">
             {user.name}
         </h3>
-        <p className="text-gray-600 dark:text-gray-300">
+        <p className="text-foreground/80 break-words">
             {user.email}
         </p>
     </div>
