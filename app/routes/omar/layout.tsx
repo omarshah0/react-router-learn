@@ -14,6 +14,7 @@ export default function OmarLayout() {
                 </h2>
                 <nav className="mt-6 space-y-2">
                     <NavLink
+                        prefetch="intent"
                         viewTransition
                         to="/omar"
                         className="block rounded-lg px-4 py-2 text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
@@ -21,6 +22,7 @@ export default function OmarLayout() {
                         Home
                     </NavLink>
                     <NavLink
+                        prefetch="intent"
                         viewTransition
                         to="/omar/users"
                         className="block rounded-lg px-4 py-2 text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
