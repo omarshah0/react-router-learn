@@ -8,6 +8,7 @@ import {
 
 export default [
   index('routes/home.tsx'),
+  route('about', 'routes/about.tsx'),
   ...prefix('omar', [
     layout('routes/omar/layout.tsx', [
       index('routes/omar/index.tsx'),

@@ -1,5 +1,13 @@
 import type { Route } from "./+types/Users";
-import { NavLink, Outlet, data, useNavigation } from "react-router";
+import { NavLink, Outlet, data } from "react-router";
+
+// Meta
+export function meta({ }: Route.MetaArgs) {
+    return [
+        { title: "Omar's Users" },
+        { name: "description", content: "Welcome to Omar's Users!" },
+    ];
+}
 
 // Headers
 export function headers({ loaderHeaders }: Route.HeadersArgs) {
@@ -40,8 +48,6 @@ export async function loader() {
 // Component
 export default function Users({ loaderData }: Route.ComponentProps) {
     const { users } = loaderData
-    const navigation = useNavigation();
-    const isNavigating = Boolean(navigation.location);
 
     return (
         <div className="grid lg:grid-cols-12 gap-6">
@@ -73,11 +79,7 @@ export default function Users({ loaderData }: Route.ComponentProps) {
 
             {/* User Details */}
             <div className="col-span-8">
-                {isNavigating ? (
-                    <h1 className="text-center text-2xl font-bold">Loading...</h1>
-                ) : (
-                    <Outlet />
-                )}
+                <Outlet />
             </div>
         </div>
     );
