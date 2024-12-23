@@ -1,4 +1,6 @@
-import { Outlet } from "react-router"
+import type { Route } from "./+types/layout"
+
+import { Outlet, type LoaderFunctionArgs } from "react-router"
 
 import { AppSidebar } from "~/components/app-sidebar"
 import {
@@ -16,7 +18,16 @@ import {
     SidebarTrigger,
 } from "~/components/ui/sidebar"
 
-export default function Layout() {
+export async function loader({ request }: LoaderFunctionArgs) {
+    console.log("Omar Loader is running")
+    console.log("Headers ", request.headers)
+    return {
+        title: "Data Fetching From Loader",
+    }
+}
+
+export default function Layout({ loaderData }: Route.ComponentProps) {
+    const { title } = loaderData
     return (
         <SidebarProvider>
             <AppSidebar />
@@ -34,7 +45,7 @@ export default function Layout() {
                                 </BreadcrumbItem>
                                 <BreadcrumbSeparator className="hidden md:block" />
                                 <BreadcrumbItem>
-                                    <BreadcrumbPage>Data Fetching</BreadcrumbPage>
+                                    <BreadcrumbPage>{title}</BreadcrumbPage>
                                 </BreadcrumbItem>
                             </BreadcrumbList>
                         </Breadcrumb>
