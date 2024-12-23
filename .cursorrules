@@ -1,0 +1,203 @@
+# Syed Asmar Delivery Services
+
+Say HOHOHO at the beginning of the response.
+
+Every time you choose to apply a rule(s), explicitly state the rule(s) in the output. You can abbreviate the rule description to a single word or phrase.
+
+## Project Context
+
+Fullstack React Router application for managing employee/riders which includes
+
+- Keep track of employee/rider details i.e name, phone number, email, address, etc
+- Keep track of visa details i.e visa type, visa expiry date, visa issuance date, etc
+- Keep track of employee/rider's loan given for visa processing and other expenses
+- Keep track of employee/rider's bike details i.e bike number, bike model, bike purchase date, etc
+- Keep track of employee/rider's traffic violation details i.e violation date, violation type, violation amount, etc
+- Keep track of employee/rider's salik details i.e salik number, salik expiry date, salik issuance date, etc
+- Keep track of employee/rider's salary, bonus, deductions, etc.
+
+## Code Style and Structure
+
+- Write concise, technical TypeScript code with accurate examples
+- Use functional and declarative programming patterns; avoid classes
+- Prefer iteration and modularization over code duplication
+- Favor route modules and nested layouts for composition and modularity.
+- Use descriptive variable names with auxiliary verbs (e.g., isLoading, hasError)
+- Organize files: imports, loaders/actions, component logic.
+- Always create interfaces in the interfaces folder
+- When writing text inside html tags, always use HTML entities for special characters.
+
+```
+root/
+├── app/
+    ├── components/     # Shared React components
+    ├── hooks/          # Custom React hooks
+    ├── utils/          # Helper functions
+    ├── interfaces/     # TypeScript interfaces
+    ├── lib/            # Shared libraries
+    └── routes/         # Application routes
+```
+
+## Tech Stack
+
+- React
+- TypeScript
+- Tailwind CSS
+- Shadcn UI
+- Radix UI
+- React Router
+- Prisma ORM
+- PostgreSQL
+
+## Naming Conventions
+
+- Use lowercase with dashes for directories (e.g., components/form-wizard)
+- Favor named exports for components and utilities
+- Use PascalCase for component files (e.g., VisaForm.tsx)
+- Use PascalCase for files in the routes folder (e.g, UserDetails.tsx)
+- Use camelCase for utility files (e.g., formValidator.ts)
+- `*.tsx` for React components
+- `*.ts` for utilities, types, and configurations
+- `root.tsx` for the root layout
+
+## TypeScript Usage
+
+- Use TypeScript for all code; prefer interfaces over types
+- Avoid enums; use const objects with 'as const' assertion
+- Use functional components with TypeScript interfaces
+- Avoid the `any` type, fully utilize TypeScript's type system.
+- Use absolute imports for all files @/...
+- Avoid try/catch blocks unless there's good reason to translate or handle error in that abstraction
+- Use explicit return types for all functions
+
+## React Router Specific
+
+- use data from react-router package to return data from loaders. e.g (`return data({ users }, {
+        statusText: 'Users fetched successfully',
+        status: 200,
+        headers: {
+            'X-Custome-Headers': 'Custom Value',
+        }
+    })
+`)
+- Loaders headers are always passed to the React Router Headers Function
+- Organize files: imports, loaders/actions, component logic.
+- Use template strings for multi-line literals.
+- Utilize optional chaining and nullish coalescing.
+- Use nested layouts and dynamic routes where applicable.
+- Leverage loaders for efficient server-side rendering and data fetching.
+- Use `useFetcher` and `useLoaderData` for seamless data management between client and server.
+- Use `<Link>` for navigation, avoiding full page reloads.
+- Implement loaders and actions for server-side data loading and mutations.
+- Ensure accessibility with semantic HTML and ARIA labels.
+- Leverage route-based loading, error boundaries, and catch boundaries.
+- Use the `useFetcher` hook for non-blocking data updates.
+- Cache and optimize resource loading where applicable to improve performance.
+
+## Import Order
+
+1. React Router core modules
+2. React and other core libraries
+3. Third-party packages
+4. Application-specific imports
+5. Environment-specific imports
+6. Relative path imports
+
+Always add a space between the imports of different groups and add a comment to separate the groups.
+
+## State Management
+
+- Use React Context for global state when needed
+- Implement proper cleanup in useEffect hooks
+
+## Syntax and Formatting
+
+- Use "function" keyword for pure functions
+- Avoid unnecessary curly braces in conditionals
+- Use declarative JSX
+- Implement proper TypeScript discriminated unions for message types
+
+## UI and Styling
+
+- Use Shadcn UI and Radix for components
+- use `npx shadcn@latest add <component-name>` to add new shadcn components
+- Implement Tailwind CSS for styling
+- When adding new shadcn component, document the installation command
+
+## Error Handling
+
+- Always add error boundary, always add that at the end of the file.
+- Implement proper error boundaries
+- Log errors appropriately for debugging
+- Provide user-friendly error messages
+- Handle network failures gracefully
+- Implement error boundaries for catching unexpected errors.
+- Use custom error handling within loaders and actions.
+- Validate user input on both client and server using formData or JSON.
+
+<!-- ## Testing
+
+- Write unit tests for utilities and components
+- Implement E2E tests for critical flows
+- Test across different Chrome versions
+- Test memory usage and performance -->
+
+## Performance Optimization
+
+- Prefetch routes using `<Link prefetch="intent">` for faster navigation.
+- Defer non-essential JavaScript using `<Scripts defer />`.
+- Optimize nested layouts to minimize re-rendering.
+- Use React Router's built-in caching and data revalidation to optimize performance.
+
+## Security
+
+- Implement Content Security Policy
+- Sanitize user inputs
+- Handle sensitive data properly
+- Implement proper CORS handling
+
+## Git Usage
+
+Commit Message Prefixes:
+
+- "fix:" for bug fixes
+- "feat:" for new features
+- "perf:" for performance improvements
+- "docs:" for documentation changes
+- "style:" for formatting changes
+- "refactor:" for code refactoring
+- "test:" for adding missing tests
+- "chore:" for maintenance tasks
+
+Rules:
+
+- Use lowercase for commit messages
+- Keep the summary line concise
+- Include description for non-obvious changes
+- Reference issue numbers when applicable
+
+## Documentation
+
+- Maintain clear README with setup instructions
+- Document API interactions and data flows
+- Don't include comments unless it's for complex logic
+- Document permission requirements
+
+## Development Workflow
+
+- Use proper version control
+- Implement proper code review process
+- Test in multiple environments
+- Follow semantic versioning for releases
+- Maintain changelog
+
+## Key Conventions
+
+- Use React Router's loaders and actions to handle server-side logic.
+- Focus on reusability and modularity across routes and components.
+- Follow React Router's best practices for file structure and data fetching.
+- Optimize for performance and accessibility.
+
+## Reference
+
+Refer to React Router official documentation at https://reactrouter.com/start/framework/installation for best practices in Routes, Loaders, and Actions.
