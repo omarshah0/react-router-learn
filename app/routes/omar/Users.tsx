@@ -59,6 +59,8 @@ export default function Users({ loaderData }: Route.ComponentProps) {
                 <div className="space-y-4">
                     {users.map((user: any) => (
                         <NavLink
+                            prefetch="viewport"
+                            viewTransition
                             key={user.id}
                             to={`/omar/users/${user.id}`}
                             className="block rounded-lg border border-gray-200 bg-white p-4 hover:border-blue-500 transition-colors dark:border-gray-700 dark:bg-gray-800"
