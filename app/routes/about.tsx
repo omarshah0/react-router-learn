@@ -7,6 +7,18 @@ export function meta({ }: Route.MetaArgs) {
     ];
 }
 
-export default function Home() {
-    return <div>About</div>
+export async function loader({ }: Route.LoaderArgs) {
+    // Fetch data from json placeholder
+    const response = await fetch("https://jsonplaceholder.typicode.com/posts");
+    const data = await response.json();
+    return { data };
+}
+
+export default function Home({ loaderData }: Route.ComponentProps) {
+    const { data } = loaderData
+    return <div>
+        {data.map((post: any) => (
+            <div key={post.id}>{post.title}</div>
+        ))}
+    </div>
 }
