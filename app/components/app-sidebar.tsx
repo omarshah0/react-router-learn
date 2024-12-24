@@ -64,8 +64,8 @@ const data = {
           url: "/omar/users/1",
         },
         {
-          title: "Settings",
-          url: "/omar",
+          title: "Search Users",
+          url: "/omar/search",
         },
       ],
     },

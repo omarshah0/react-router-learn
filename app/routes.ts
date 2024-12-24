@@ -15,6 +15,8 @@ export default [
       route('users', 'routes/omar/Users.tsx', [
         route(':id', 'routes/omar/User.tsx'),
       ]),
+      route('search', 'routes/omar/SearchUser.tsx'),
+      route('search-user', 'routes/omar/search-user.ts'),
     ]),
   ]),
 ] satisfies RouteConfig
