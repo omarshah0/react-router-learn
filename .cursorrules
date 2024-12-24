@@ -23,7 +23,7 @@ Fullstack React Router application for managing employee/riders which includes
 - Prefer iteration and modularization over code duplication
 - Favor route modules and nested layouts for composition and modularity.
 - Use descriptive variable names with auxiliary verbs (e.g., isLoading, hasError)
-- Organize files: imports, loaders/actions, component logic.
+- Organize files: imports (react-router, react, prisma and redis (if needed), ui, icons), loaders/actions, component logic.
 - Always create interfaces in the interfaces folder
 - When writing text inside html tags, always use HTML entities for special characters.
 
