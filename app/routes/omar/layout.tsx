@@ -19,8 +19,6 @@ import {
 } from "~/components/ui/sidebar"
 
 export async function loader({ request }: LoaderFunctionArgs) {
-    console.log("Omar Loader is running")
-    console.log("Headers ", request.headers)
     return {
         title: "Data Fetching From Loader",
     }

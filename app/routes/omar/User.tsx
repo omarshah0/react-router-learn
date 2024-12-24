@@ -1,22 +1,34 @@
 import type { Route } from "./+types/User";
+import type { User } from "@prisma/client";
+// Prisma
+import { prisma } from "~/db.server";
 
+// React
 import { Suspense, use, useEffect } from "react";
+import { useRouteError, isRouteErrorResponse } from "react-router";
 
 // Loader
 export async function loader({
     params,
 }: Route.ClientLoaderArgs) {
-    async function fetchUser(id: number) {
-        const user = {
-            id: id,
-            name: `User ${id}`,
-            email: `user${id}@example.com`,
+    // Intentionally returning an unresolved promise for use with Suspense
+    // This allows React to handle the loading state while the data is being fetched
+    async function fetchUser(id: string) {
+        try {
+            const user = await prisma.user.findUnique({
+                where: { id }
+            });
+
+            if (!user) {
+                throw new Error("User not found");
+            }
+            return user;
+        } catch (error) {
+            throw error instanceof Error ? error : new Error("Failed to fetch user");
         }
-        return user
     }
 
-
-    return { user: fetchUser(Number(params.id)), userId: Number(params.id) }
+    return { user: fetchUser(params.id), userId: params.id }
 }
 
 // Component
@@ -39,7 +51,7 @@ export default function Users({ loaderData, }: Route.ComponentProps) {
     );
 }
 
-const UserDetails = ({ p }: { p: Promise<{ id: number; name: string; email: string; }> }) => {
+const UserDetails = ({ p }: { p: Promise<User> }) => {
     const user = use(p)
 
     // Set the title of the page
@@ -58,4 +70,28 @@ const UserDetails = ({ p }: { p: Promise<{ id: number; name: string; email: stri
             {user.email}
         </p>
     </div>
+}
+
+export function ErrorBoundary() {
+    const error = useRouteError();
+
+    if (isRouteErrorResponse(error)) {
+        return (
+            <div className="space-y-4 p-4 text-center border border-red-500 max-w-2xl mx-auto rounded">
+                <h1 className="text-2xl font-bold text-red-600">
+                    {error.status} {error.statusText}
+                </h1>
+                <p className="text-gray-600 dark:text-gray-300">{error.data}</p>
+            </div>
+        );
+    }
+
+    return (
+        <div className="space-y-4 p-4 text-center border border-red-500 max-w-2xl mx-auto rounded">
+            <h1 className="text-2xl font-bold text-red-600">Oops! Something went wrong mamu</h1>
+            <p className="text-gray-600 dark:text-gray-300">
+                {error instanceof Error ? error.message : "Unknown error occurred"}
+            </p>
+        </div>
+    );
 }

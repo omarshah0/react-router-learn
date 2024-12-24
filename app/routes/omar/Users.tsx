@@ -1,5 +1,8 @@
 import type { Route } from "./+types/Users";
-import { NavLink, Outlet, data } from "react-router";
+import { NavLink, Outlet, data, useRouteError, isRouteErrorResponse } from "react-router";
+
+// Prisma
+import { prisma } from "~/db.server";
 
 // Meta
 export function meta({ }: Route.MetaArgs) {
@@ -21,20 +24,20 @@ export function headers({ loaderHeaders }: Route.HeadersArgs) {
 // Loader
 export async function loader() {
     const ms = 5
-    const users = Array.from({ length: 10 }, (_, index) => ({
-        id: index + 1,
-        name: `User ${index + 1}`,
-        email: `user${index + 1}@example.com`,
-    }))
-    return data({ users }, {
-        statusText: 'Users fetched successfully',
-        status: 200,
-        headers: {
-            "Server-Timing": `page;dur=${ms};desc="Page query"`,
-            'X-Powered-By': 'React Router',
-            'X-Omar-Shah': 'YoYo',
-        }
-    })
+    try {
+        const users = await prisma.user.findMany()
+        return data({ users }, {
+            statusText: 'Users fetched successfully',
+            status: 200,
+            headers: {
+                "Server-Timing": `page;dur=${ms};desc="Page query"`,
+                'X-Powered-By': 'React Router',
+                'X-Omar-Shah': 'YoYo',
+            }
+        })
+    } catch (error: any) {
+        throw new Response(error.message, { status: 500 })
+    }
 }
 
 // Component
@@ -78,5 +81,29 @@ export default function Users({ loaderData }: Route.ComponentProps) {
                 </div>
             </div>
         </>
+    );
+}
+
+export function ErrorBoundary() {
+    const error = useRouteError();
+
+    if (isRouteErrorResponse(error)) {
+        return (
+            <div className="space-y-4 p-4 text-center border border-red-500 max-w-2xl mx-auto rounded">
+                <h1 className="text-2xl font-bold text-red-600">
+                    {error.status} {error.statusText}
+                </h1>
+                <p className="text-gray-600 dark:text-gray-300">{error.data}</p>
+            </div>
+        );
+    }
+
+    return (
+        <div className="space-y-4 p-4 text-center border border-red-500 max-w-2xl mx-auto rounded">
+            <h1 className="text-2xl font-bold text-red-600">Oops! Something went wrong</h1>
+            <p className="text-gray-600 dark:text-gray-300">
+                {error instanceof Error ? error.message : "Unknown error occurred"}
+            </p>
+        </div>
     );
 }
